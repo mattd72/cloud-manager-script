@@ -67,7 +67,7 @@ sudo chown `whoami` /var/lib/mongodb-mms-automation
 sudo chown `whoami` /var/log/mongodb-mms-automation
 sudo chown `whoami` /data
 
-sudo yum install cyrus-sasl cyrus-sasl-gssapi \
+sudo yum -y install cyrus-sasl cyrus-sasl-gssapi \
      cyrus-sasl-plain krb5-libs libcurl net-snmp \
      net-snmp-libs openldap openssl xz-libs --skip-broken
 
