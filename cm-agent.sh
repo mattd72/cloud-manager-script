@@ -5,7 +5,7 @@ sudo rpm -U mongodb-mms-automation-agent-manager-13.22.1.9104-1.x86_64.rpm
 
 # Create automation-agent.config
 
-cat << EOF sudo tee /etc/mongodb-mms/automation-agent.config
+sudo cat << EOF sudo tee /etc/mongodb-mms/automation-agent.config
 #
 # REQUIRED
 # Enter your Project ID - It can be found at https://cloud.mongodb.com/settings/group
