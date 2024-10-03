@@ -1,11 +1,12 @@
 #!/bin/bash
 
-curl -OL https://cloud.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager-13.22.1.9104-1.x86_64.rpm
-sudo rpm -U mongodb-mms-automation-agent-manager-13.22.1.9104-1.x86_64.rpm
+curl -OL https://cloud.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-13.23.0.9131-1.amazon2023_x86_64.tar.gz
+tar -xvf mongodb-mms-automation-agent-13.23.0.9131-1.amazon2023_x86_64.tar.gz
+cd mongodb-mms-automation-agent-13.23.0.9131-1.amazon2023_x86_64
 
 # Create automation-agent.config
 
-sudo cat << EOF sudo tee /etc/mongodb-mms/automation-agent.config
+sudo cat << EOF sudo local.config
 #
 # REQUIRED
 # Enter your Project ID - It can be found at https://cloud.mongodb.com/settings/group
@@ -59,6 +60,15 @@ maxLogFileSize=268435456
 # https://docs.cloudmanager.mongodb.com/reference/mongodb-agent-settings/index.html
 EOF
 
+sudo mkdir /var/lib/mongodb-mms-automation
+sudo mkdir /var/log/mongodb-mms-automation
 sudo mkdir -p /data
-sudo chown mongod:mongod /data
-sudo service mongodb-mms-automation-agent start
+sudo chown `whoami` /var/lib/mongodb-mms-automation
+sudo chown `whoami` /var/log/mongodb-mms-automation
+sudo chown `whoami` /data
+
+sudo yum install cyrus-sasl cyrus-sasl-gssapi \
+     cyrus-sasl-plain krb5-libs libcurl net-snmp \
+     net-snmp-libs openldap openssl xz-libs
+
+nohup /bin/bash -c "./mongodb-mms-automation-agent --config=local.config 2>&1 | ./fatallogger -logfile /var/log/mongodb-mms-automation/automation-agent-fatal.log" 2>&1 > /dev/null &
