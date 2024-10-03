@@ -69,6 +69,6 @@ sudo chown `whoami` /data
 
 sudo yum install cyrus-sasl cyrus-sasl-gssapi \
      cyrus-sasl-plain krb5-libs libcurl net-snmp \
-     net-snmp-libs openldap openssl xz-libs
+     net-snmp-libs openldap openssl xz-libs --skip-broken
 
 nohup /bin/bash -c "./mongodb-mms-automation-agent --config=local.config 2>&1 | ./fatallogger -logfile /var/log/mongodb-mms-automation/automation-agent-fatal.log" 2>&1 > /dev/null &
